@@ -1,0 +1,14 @@
+{
+  "name": "com.teamzero.storage",
+  "displayName": "TeamZero Storage",
+  "version": "0.1.0",
+  "unity": "2020.3",
+  "description": "TeamZero Storage",
+  "keywords": [
+    "TeamZero"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:ivannikit/unity-storage.git#main"
+  }
+}
