@@ -7,10 +7,8 @@ using Newtonsoft.Json;
 
 namespace TeamZero.StorageSystem.NewtonsoftJson
 {
-    public abstract class NewtonsoftSerializer<TValueType, TSerializedValue> : ISerializer<object, TSerializedValue>
+    public abstract class NewtonsoftSerializer<TSerializedValue> : ITypedValueSerializer<object, TSerializedValue>
     {
-        protected Type ValueType() => typeof(TValueType);
-        
         private readonly JsonSerializerSettings _settings;
 
         protected NewtonsoftSerializer(JsonSerializerSettings settings)
@@ -39,7 +37,8 @@ namespace TeamZero.StorageSystem.NewtonsoftJson
         
 
         protected JsonSerializerSettings Settings() => _settings;
-        public abstract bool Deserialize(TSerializedValue serializedValue, out object value);
+        
+        public abstract bool Deserialize(Type valueType, TSerializedValue serializedValue, out object value);
         public abstract bool Serialize(object value, [NotNullWhen(true)] out TSerializedValue serializedValue);
     }
 }

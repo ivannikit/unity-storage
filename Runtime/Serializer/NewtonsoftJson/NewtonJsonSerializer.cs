@@ -5,19 +5,21 @@ using Newtonsoft.Json;
 
 namespace TeamZero.StorageSystem.NewtonsoftJson
 {
-    public class NewtonJsonSerializer<TValueType> : NewtonsoftSerializer<TValueType, string>
+    public class NewtonJsonSerializer : NewtonsoftSerializer<string>
     {
+        public static NewtonJsonSerializer Create(JsonSerializerSettings settings) =>
+            new NewtonJsonSerializer(settings);
+        
         public NewtonJsonSerializer(JsonSerializerSettings settings) : base(settings)
         {
         }
 
-        public override bool Deserialize(string serializedValue, out object value)
+        public override bool Deserialize(Type valueType, string serializedValue, out object value)
         {
-            Type type = ValueType();
-            JsonSerializerSettings settings = Settings();
             try
             {
-                value = JsonConvert.DeserializeObject(serializedValue, type, settings);
+                JsonSerializerSettings settings = Settings();
+                value = JsonConvert.DeserializeObject(serializedValue, valueType, settings);
                 return true;
             }
             catch
@@ -29,9 +31,9 @@ namespace TeamZero.StorageSystem.NewtonsoftJson
 
         public override bool Serialize(object value, out string serializedValue)
         {
-            JsonSerializerSettings settings = Settings();
             try
             {
+                JsonSerializerSettings settings = Settings();
                 serializedValue = JsonConvert.SerializeObject(value, settings);
                 return true;
             }
