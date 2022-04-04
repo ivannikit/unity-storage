@@ -18,7 +18,7 @@ namespace TeamZero.StorageSystem.NewtonsoftJson
 
         public override bool Deserialize(Type valueType, byte[] serializedValue, out object value)
         {
-            using MemoryStream stream = new MemoryStream();
+            using MemoryStream stream = new MemoryStream(serializedValue);
             return DeserializeFrom(stream, valueType, out value);
         }
 
