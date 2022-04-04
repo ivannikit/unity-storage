@@ -1,5 +1,6 @@
 #nullable enable
 using System;
+using System.IO;
 using Newtonsoft.Json;
 
 
@@ -10,7 +11,7 @@ namespace TeamZero.StorageSystem.NewtonsoftJson
         public static NewtonJsonSerializer Create(JsonSerializerSettings settings) =>
             new NewtonJsonSerializer(settings);
         
-        public NewtonJsonSerializer(JsonSerializerSettings settings) : base(settings)
+        private NewtonJsonSerializer(JsonSerializerSettings settings) : base(settings)
         {
         }
 
@@ -44,16 +45,39 @@ namespace TeamZero.StorageSystem.NewtonsoftJson
             }
         }
 
-        /*public object Deserialize(Stream stream, Type type)
+        public override bool DeserializeFrom(Stream stream, Type valueType, out object value)
         {
-            JsonSerializerSettings settings = Settings();
-            var serializer = JsonSerializer.CreateDefault(settings);
+            try
+            {
+                JsonSerializerSettings settings = Settings();
+                var serializer = JsonSerializer.CreateDefault(settings);
+                using var streamReader = new StreamReader(stream);
+                using var jsonReader = new JsonTextReader(streamReader);
+                value = serializer.Deserialize(jsonReader, valueType);
+                return true;
+            }
+            catch
+            {
+                value = default!;
+                return false;
+            }
+        }
 
-            using (var sr = new StreamReader(stream))
-                using (var jr = new JsonTextReader(sr))
-                {
-                    return serializer.Deserialize(jr, type);
-                }
-        }*/
+        public override bool SerializeTo(Stream stream, object value)
+        {
+            try
+            {
+                JsonSerializerSettings settings = Settings();
+                var serializer = JsonSerializer.CreateDefault(settings);
+                using var streamWriter = new StreamWriter(stream);
+                using var jsonWriter = new JsonTextWriter(streamWriter);
+                serializer.Serialize(jsonWriter, value);
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
     }
 }

@@ -1,13 +1,14 @@
+#nullable enable
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using System.IO;
 using Newtonsoft.Json;
-
-#nullable enable
 
 namespace TeamZero.StorageSystem.NewtonsoftJson
 {
-    public abstract class NewtonsoftSerializer<TSerializedValue> : ITypedValueSerializer<object, TSerializedValue>
+    public abstract class NewtonsoftSerializer<TSerializedValue> : 
+        ITypedValueSerializer<object, TSerializedValue>, ITypedValueStreamSerializer<object>
     {
         private readonly JsonSerializerSettings _settings;
 
@@ -40,5 +41,9 @@ namespace TeamZero.StorageSystem.NewtonsoftJson
         
         public abstract bool Deserialize(Type valueType, TSerializedValue serializedValue, out object value);
         public abstract bool Serialize(object value, [NotNullWhen(true)] out TSerializedValue serializedValue);
+
+
+        public abstract bool DeserializeFrom(Stream stream, Type valueType, out object value);
+        public abstract bool SerializeTo(Stream stream, object value);
     }
 }
