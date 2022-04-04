@@ -1,13 +1,11 @@
-/*
 #nullable enable
 using System;
-using System.IO;
 using Newtonsoft.Json;
 
 
 namespace TeamZero.StorageSystem.NewtonsoftJson
 {
-    public class NewtonJsonSerializer<TDataType> : NewtonsoftSerializer<TDataType, string>
+    public class NewtonJsonSerializer<TValueType> : NewtonsoftSerializer<TValueType, string>
     {
         public NewtonJsonSerializer(JsonSerializerSettings settings) : base(settings)
         {
@@ -15,28 +13,36 @@ namespace TeamZero.StorageSystem.NewtonsoftJson
 
         public override bool Deserialize(string serializedValue, out object value)
         {
-            throw new System.NotImplementedException();
+            Type type = ValueType();
+            JsonSerializerSettings settings = Settings();
+            try
+            {
+                value = JsonConvert.DeserializeObject(serializedValue, type, settings);
+                return true;
+            }
+            catch
+            {
+                value = default!;
+                return false;
+            }
         }
 
         public override bool Serialize(object value, out string serializedValue)
         {
-            Type type = DataType();
             JsonSerializerSettings settings = Settings();
-            return JsonConvert.DeserializeObject(value, type, settings);
-        }
-        
-        public void Serialize(Stream stream, object value)
-        {
-            JsonSerializerSettings settings = Settings();
-            var serializer = JsonSerializer.CreateDefault(settings);
-
-            using (var sw = new StreamWriter(stream))
-                using (var jw = new JsonTextWriter(sw))
-                    serializer.Serialize(jw, value);
-            
+            try
+            {
+                serializedValue = JsonConvert.SerializeObject(value, settings);
+                return true;
+            }
+            catch
+            {
+                serializedValue = default!;
+                return false;
+            }
         }
 
-        public object Deserialize(Stream stream, Type type)
+        /*public object Deserialize(Stream stream, Type type)
         {
             JsonSerializerSettings settings = Settings();
             var serializer = JsonSerializer.CreateDefault(settings);
@@ -46,19 +52,6 @@ namespace TeamZero.StorageSystem.NewtonsoftJson
                 {
                     return serializer.Deserialize(jr, type);
                 }
-        }
-
-        private string Serialize(object value)
-        {
-            JsonSerializerSettings settings = Settings();
-            return JsonConvert.SerializeObject(value, settings);
-        }
-
-        private object Deserialize(string value, Type type)
-        {
-            JsonSerializerSettings settings = Settings();
-            return JsonConvert.DeserializeObject(value, type, settings);
-        }
+        }*/
     }
 }
-*/
