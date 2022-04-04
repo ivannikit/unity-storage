@@ -6,13 +6,40 @@ namespace TeamZero.StorageSystem
     public abstract class PlayerPrefsDatabase : 
         IDatabase<string, int>, IDatabase<string, float>, IDatabase<string, string>
     {
-        int IDatabase<string, int>.Pull(string address) => PlayerPrefs.GetInt(address);
-        void IDatabase<string, int>.Push(string address, int data) => PlayerPrefs.SetInt(address, data);
+        public bool Pull(string address, out int data)
+        {
+            data = PlayerPrefs.GetInt(address);
+            return true;
+        }
 
-        float IDatabase<string, float>.Pull(string address) => PlayerPrefs.GetFloat(address);
-        void IDatabase<string, float>.Push(string address, float data) => PlayerPrefs.SetFloat(address, data);
-        
-        string IDatabase<string, string>.Pull(string address) => PlayerPrefs.GetString(address);
-        void IDatabase<string, string>.Push(string address, string data) => PlayerPrefs.SetString(address, data);
+        public bool Push(string address, int data)
+        {
+            PlayerPrefs.SetInt(address, data);
+            return true;
+        }
+
+        public bool Pull(string address, out float data)
+        {
+            data = PlayerPrefs.GetFloat(address);
+            return true;
+        }
+
+        public bool Push(string address, float data)
+        {
+            PlayerPrefs.SetFloat(address, data);
+            return true;
+        }
+
+        public bool Pull(string address, out string data)
+        {
+            data = PlayerPrefs.GetString(address);
+            return true;
+        }
+
+        public bool Push(string address, string data)
+        {
+            PlayerPrefs.SetString(address, data);
+            return true;
+        }
     }
 }

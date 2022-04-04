@@ -22,15 +22,22 @@ namespace TeamZero.StorageSystem
 
         public bool Pull(out TData data)
         {
-            TSerializeData serializedValue = _database.Pull(_address);
-            return _serializer.Deserialize(serializedValue, out data);
+            if (_database.Pull(_address, out TSerializeData serializedValue))
+            {
+                return _serializer.Deserialize(serializedValue, out data);
+            }
+
+            data = default!;
+            return false;
         }
 
-        public void Push(TData data)
+        public bool Push(TData data)
         {
-            bool serializationComplete = _serializer.Serialize(data, out TSerializeData serializedValue);
-            if(serializationComplete)
-                _database.Push(_address, serializedValue);
+            bool result = false;
+            if(_serializer.Serialize(data, out TSerializeData serializedValue))
+                result = _database.Push(_address, serializedValue);
+
+            return result;
         }
     }
 }
