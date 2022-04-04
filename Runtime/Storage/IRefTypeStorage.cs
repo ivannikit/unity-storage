@@ -2,8 +2,8 @@
 
 namespace TeamZero.StorageSystem
 {
-    public interface IRefTypeStorage<TAddress, TData>
+    public interface IRefTypeStorage<in TAddress, TData>
     {
-        RefTypeResource<TAddress, TData> CreateRefTypeResource(TAddress address);
+        IResource<TData> CreateRefTypeResource(TAddress address);
     }
 }
