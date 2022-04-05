@@ -4,6 +4,9 @@ using System.IO;
 
 namespace TeamZero.StorageSystem
 {
+    /// <summary>
+    /// This class are internal because it's not safe. Use SafeFileSystemDatabase instead
+    /// </summary>
     internal class FileSystemDatabase : IDatabase<string, byte[]>, IDatabase<string, string>, IStreamDatabase<string, object>
     {
         public bool Pull(string address, out byte[] data)
