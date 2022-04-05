@@ -4,9 +4,9 @@ using System;
 
 namespace TeamZero.StorageSystem
 {
-    public interface IStreamDatabase<TData>
+    public interface IStreamDatabase<in TAddress, TData>
     {
-        bool Pull(string address, Type valueType, IStreamSerializer<TData> serializer, out TData data);
-        bool Push(string address, IStreamSerializer<TData> serializer, TData data);
+        bool Pull(TAddress address, Type valueType, IStreamSerializer<TData> serializer, out TData data);
+        bool Push(TAddress address, IStreamSerializer<TData> serializer, TData data);
     }
 }

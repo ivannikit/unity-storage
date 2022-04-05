@@ -4,7 +4,7 @@ using System.IO;
 
 namespace TeamZero.StorageSystem
 {
-    public class SafeFileSystemDatabase : IDatabase<string, byte[]>, IDatabase<string, string>, IStreamDatabase<object>
+    public class SafeFileSystemDatabase : IDatabase<string, byte[]>, IDatabase<string, string>, IStreamDatabase<string, object>
     {
         private readonly FileSystemDatabase _database;
 

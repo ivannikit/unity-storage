@@ -4,7 +4,7 @@ using System.IO;
 
 namespace TeamZero.StorageSystem
 {
-    internal class FileSystemDatabase : IDatabase<string, byte[]>, IDatabase<string, string>, IStreamDatabase<object>
+    internal class FileSystemDatabase : IDatabase<string, byte[]>, IDatabase<string, string>, IStreamDatabase<string, object>
     {
         public bool Pull(string address, out byte[] data)
         {

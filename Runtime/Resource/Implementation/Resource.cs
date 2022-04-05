@@ -10,11 +10,15 @@ namespace TeamZero.StorageSystem
         private readonly IDatabase<TAddress, TSerializeData> _database;
         private readonly ISerializer<TData, TSerializeData> _serializer;
 
-        public static Resource<TAddress, TData, TSerializeData> Create(TAddress address, 
-            IDatabase<TAddress, TSerializeData> database, ISerializer<TData, TSerializeData> serializer)
+        public static Resource<TAddress, TData, TSerializeData> Create(
+            TAddress address, 
+            IDatabase<TAddress, TSerializeData> database, 
+            ISerializer<TData, TSerializeData> serializer)
                 => new Resource<TAddress, TData, TSerializeData>(address, database, serializer);
         
-        private Resource(TAddress address, IDatabase<TAddress, TSerializeData> database,
+        private Resource(
+            TAddress address,
+            IDatabase<TAddress, TSerializeData> database,
             ISerializer<TData, TSerializeData> serializer)
         {
             _address = address;
