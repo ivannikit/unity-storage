@@ -3,7 +3,7 @@ using System.IO;
 
 namespace TeamZero.StorageSystem
 {
-    internal class FileSystemDatabase : IDatabase<string, byte[]>, IDatabase<string, string>, IStreamDatabase<string>
+    internal class FileSystemDatabase : IDatabase<string, byte[]>, IDatabase<string, string>
     {
         internal FileSystemDatabase()
         {
@@ -59,34 +59,6 @@ namespace TeamZero.StorageSystem
             }
             catch
             {
-                return false;
-            }
-        }
-
-        public bool CreatePullStream(string address, out Stream stream)
-        {
-            try
-            {
-                stream = File.OpenRead(address);
-                return true;
-            }
-            catch
-            {
-                stream = default!;
-                return false;
-            }
-        }
-
-        public bool CreatePushStream(string address, out Stream stream)
-        {
-            try
-            {
-                stream = File.Create(address);
-                return true;
-            }
-            catch
-            {
-                stream = default!;
                 return false;
             }
         }

@@ -4,7 +4,7 @@ using System.IO;
 
 namespace TeamZero.StorageSystem
 {
-    public class SafeFileSystemDatabase : IDatabase<string, byte[]>, IDatabase<string, string>, IStreamDatabase<string>
+    public class SafeFileSystemDatabase : IDatabase<string, byte[]>, IDatabase<string, string>
     {
         private readonly FileSystemDatabase _database;
 
@@ -16,7 +16,7 @@ namespace TeamZero.StorageSystem
 
         private SafeFileSystemDatabase(FileSystemDatabase database) => _database = database;
 
-        public bool CreatePullStream(string address, out Stream stream)
+        /*public bool CreatePullStream(string address, out Stream stream)
         {
             if (_database.CreatePullStream(address, out stream))
                 return true;
@@ -35,7 +35,7 @@ namespace TeamZero.StorageSystem
             }
 
             return false;
-        }
+        }*/
         
         public bool Pull(string address, out byte[] data)
         {

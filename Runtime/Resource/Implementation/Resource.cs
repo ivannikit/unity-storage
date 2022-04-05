@@ -1,3 +1,5 @@
+using System;
+
 #nullable enable
 
 namespace TeamZero.StorageSystem
@@ -24,7 +26,8 @@ namespace TeamZero.StorageSystem
         {
             if (_database.Pull(_address, out TSerializeData serializedValue))
             {
-                return _serializer.Deserialize(serializedValue, out data);
+                Type valueType = typeof(TData);
+                return _serializer.Deserialize(valueType, serializedValue, out data);
             }
 
             data = default!;
