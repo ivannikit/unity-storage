@@ -4,7 +4,7 @@ using System.IO;
 
 namespace TeamZero.StorageSystem
 {
-    public class SafeFileSystemDatabase : IDatabase<string, byte[]>, IDatabase<string, string>
+    public class SafeFileSystemDatabase : IDatabase<string, byte[]>, IDatabase<string, string>, IStreamDatabase<object>
     {
         private readonly FileSystemDatabase _database;
 
@@ -15,27 +15,27 @@ namespace TeamZero.StorageSystem
         }
 
         private SafeFileSystemDatabase(FileSystemDatabase database) => _database = database;
-
-        /*public bool CreatePullStream(string address, out Stream stream)
+        
+        public bool Pull(string address, Type valueType, IStreamSerializer<object> serializer, out object data)
         {
-            if (_database.CreatePullStream(address, out stream))
-                return true;
+            if (_database.Pull(address, valueType, serializer, out data))
+                    return true;
 
-            string backupPatch = BackupAddress(address);
-            return _database.CreatePullStream(backupPatch, out stream);
+            string backupAddress = BackupAddress(address);
+            return _database.Pull(backupAddress, valueType, serializer, out data);
         }
 
-        public bool CreatePushStream(string address, out Stream stream)
+        public bool Push(string address, IStreamSerializer<object> serializer, object data)
         {
             string tempAddress = TempAddress(address);
-            if (_database.CreatePushStream(tempAddress, out stream))
+            if (_database.Push(tempAddress, serializer, data))
             {
                 SeekReplicaFiles(address, tempAddress);
                 return true;
             }
 
             return false;
-        }*/
+        }
         
         public bool Pull(string address, out byte[] data)
         {

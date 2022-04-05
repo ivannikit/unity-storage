@@ -7,7 +7,7 @@ using Newtonsoft.Json;
 
 namespace TeamZero.StorageSystem.NewtonsoftJson
 {
-    public abstract class NewtonsoftSerializer<TSerializedValue> : ISerializer<object, TSerializedValue>
+    public abstract class NewtonsoftSerializer<TSerializedValue> : ISerializer<object, TSerializedValue>, IStreamSerializer<object>
     {
         private readonly JsonSerializerSettings _settings;
 
