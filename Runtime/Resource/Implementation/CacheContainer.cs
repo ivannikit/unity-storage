@@ -29,5 +29,14 @@ namespace TeamZero.StorageSystem
         }
 
         public bool Push(TData data) => _source.Push(data);
+        
+        public bool PushCache()
+        {
+            bool result = false;
+            if(_cached)
+                result = _source.Push(_cache);
+
+            return result;
+        }
     }
 }
