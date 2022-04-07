@@ -14,7 +14,7 @@ namespace TeamZero.StorageSystem
         public static JsonFileSystemStorage<TData> Create()
         {
             string directoryPath = FileSystemUtils.GetInternalStoragePath();
-            IStreamDatabase<string, TData> database = SafeFileSystemDatabase<TData>.Create();
+            IStreamDatabase<string, TData> database = SafeStreamFileSystemDatabase<TData>.Create();
             JsonSerializerSettings serializerSettings = new JsonSerializerSettings { Formatting = Formatting.Indented };
             IStreamSerializer<TData> serializer = NewtonJsonSerializer<TData>.Create(serializerSettings);
             return new JsonFileSystemStorage<TData>(directoryPath, database, serializer);
