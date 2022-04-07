@@ -1,4 +1,3 @@
-using Newtonsoft.Json;
 using TeamZero.StorageSystem.NewtonsoftJson;
 
 #nullable enable
@@ -15,8 +14,7 @@ namespace TeamZero.StorageSystem
         {
             string directoryPath = FileSystemUtils.GetInternalStoragePath();
             IStreamDatabase<string, TData> database = SafeStreamFileSystemDatabase<TData>.Create();
-            JsonSerializerSettings serializerSettings = new JsonSerializerSettings { Formatting = Formatting.Indented };
-            IStreamSerializer<TData> serializer = NewtonJsonSerializer<TData>.Create(serializerSettings);
+            IStreamSerializer<TData> serializer = NewtonJsonSerializer<TData>.Create();
             return new JsonFileSystemStorage<TData>(directoryPath, database, serializer);
         }
         

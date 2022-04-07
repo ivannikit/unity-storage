@@ -9,6 +9,11 @@ namespace TeamZero.StorageSystem.NewtonsoftJson
 {
     public class NewtonBsonSerializer<TValue> : NewtonsoftSerializer<TValue, byte[]>
     {
+        private static JsonSerializerSettings DefaultSettings() => new JsonSerializerSettings();
+        
+        public static NewtonBsonSerializer<TValue> Create() =>
+            new NewtonBsonSerializer<TValue>(DefaultSettings());
+        
         public static NewtonBsonSerializer<TValue> Create(JsonSerializerSettings settings) =>
             new NewtonBsonSerializer<TValue>(settings);
         

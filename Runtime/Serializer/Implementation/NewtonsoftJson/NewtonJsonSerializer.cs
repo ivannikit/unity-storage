@@ -8,6 +8,12 @@ namespace TeamZero.StorageSystem.NewtonsoftJson
 {
     public class NewtonJsonSerializer<TValue> : NewtonsoftSerializer<TValue, string>
     {
+        private static JsonSerializerSettings DefaultSettings() 
+            => new JsonSerializerSettings { Formatting = Formatting.Indented };
+        
+        public static NewtonJsonSerializer<TValue> Create() 
+            => new NewtonJsonSerializer<TValue>(DefaultSettings());
+        
         public static NewtonJsonSerializer<TValue> Create(JsonSerializerSettings settings) =>
             new NewtonJsonSerializer<TValue>(settings);
         
