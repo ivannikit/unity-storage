@@ -8,6 +8,7 @@ namespace TeamZero.StorageSystem
     public class FileSystemStorage<TData> : StreamStorage<string, TData>
     {
         private readonly string _directoryPath;
+        private readonly string _fileExtension;
 
         private static IStreamSerializer<TData> PlatformFileSystemSerializer(out string fileExtension)
         {
@@ -24,8 +25,6 @@ namespace TeamZero.StorageSystem
             #error This platform are not implemented.
 #endif
         }
-
-        private readonly string _fileExtension;
 
         public static FileSystemStorage<TData> Create()
         {
