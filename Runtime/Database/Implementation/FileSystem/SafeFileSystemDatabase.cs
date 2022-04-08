@@ -1,10 +1,9 @@
 #nullable enable
-using System;
 using System.IO;
 
 namespace TeamZero.StorageSystem
 {
-    public class SafeFileSystemDatabase : IDatabase<string, byte[]>, IDatabase<string, string>, IStreamDatabase<string, object>
+    public class SafeFileSystemDatabase : IDatabase<string, byte[]>, IDatabase<string, string>
     {
         private readonly FileSystemDatabase _database;
 
@@ -15,28 +14,7 @@ namespace TeamZero.StorageSystem
         }
 
         private SafeFileSystemDatabase(FileSystemDatabase database) => _database = database;
-        
-        public bool Pull(string address, Type valueType, IStreamSerializer<object> serializer, out object data)
-        {
-            if (_database.Pull(address, valueType, serializer, out data))
-                    return true;
 
-            string backupAddress = SafeFileSystemUtils.BackupAddress(address);
-            return _database.Pull(backupAddress, valueType, serializer, out data);
-        }
-
-        public bool Push(string address, IStreamSerializer<object> serializer, object data)
-        {
-            string tempAddress = SafeFileSystemUtils.TempAddress(address);
-            if (_database.Push(tempAddress, serializer, data))
-            {
-                SeekReplicaFiles(address, tempAddress);
-                return true;
-            }
-
-            return false;
-        }
-        
         public bool Pull(string address, out byte[] data)
         {
             if (_database.Pull(address, out data))

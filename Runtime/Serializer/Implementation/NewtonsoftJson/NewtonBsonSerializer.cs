@@ -7,27 +7,27 @@ using Newtonsoft.Json.Bson;
 
 namespace TeamZero.StorageSystem.NewtonsoftJson
 {
-    public class NewtonBsonSerializer<TValue> : NewtonsoftSerializer<TValue, byte[]>
+    public class NewtonBsonSerializer : NewtonsoftSerializer<byte[]>
     {
         private static JsonSerializerSettings DefaultSettings() => new JsonSerializerSettings();
         
-        public static NewtonBsonSerializer<TValue> Create() =>
-            new NewtonBsonSerializer<TValue>(DefaultSettings());
+        public static NewtonBsonSerializer Create() =>
+            new NewtonBsonSerializer(DefaultSettings());
         
-        public static NewtonBsonSerializer<TValue> Create(JsonSerializerSettings settings) =>
-            new NewtonBsonSerializer<TValue>(settings);
+        public static NewtonBsonSerializer Create(JsonSerializerSettings settings) =>
+            new NewtonBsonSerializer(settings);
         
         private NewtonBsonSerializer(JsonSerializerSettings settings) : base(settings)
         {
         }
 
-        public override bool Deserialize(Type valueType, byte[] serializedValue, out TValue value)
+        public override bool Deserialize(Type valueType, byte[] serializedValue, out object value)
         {
             using MemoryStream stream = new MemoryStream(serializedValue);
             return DeserializeFrom(stream, valueType, out value);
         }
 
-        public override bool Serialize(TValue value, out byte[] serializedValue)
+        public override bool Serialize(object value, out byte[] serializedValue)
         {
             using MemoryStream stream = new MemoryStream();
             if (SerializeTo(stream, value))
@@ -40,7 +40,7 @@ namespace TeamZero.StorageSystem.NewtonsoftJson
             return false;
         }
 
-        public override bool DeserializeFrom(Stream stream, Type valueType, out TValue value)
+        public override bool DeserializeFrom(Stream stream, Type valueType, out object value)
         {
             try
             {
@@ -48,7 +48,7 @@ namespace TeamZero.StorageSystem.NewtonsoftJson
                 var serializer = JsonSerializer.CreateDefault(settings);
                 using var streamReader = new BinaryReader(stream);
                 using var jsonReader = new BsonReader(streamReader);
-                value = (TValue)serializer.Deserialize(jsonReader, valueType);
+                value = serializer.Deserialize(jsonReader, valueType);
                 return true;
             }
             catch
@@ -58,7 +58,7 @@ namespace TeamZero.StorageSystem.NewtonsoftJson
             }
         }
 
-        public override bool SerializeTo(Stream stream, TValue value)
+        public override bool SerializeTo(Stream stream, object value)
         {
             try
             {

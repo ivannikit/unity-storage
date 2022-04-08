@@ -7,9 +7,9 @@ namespace TeamZero.StorageSystem
     /// <summary>
     /// This class are internal because it's not safe. Use SafeFileSystemDatabase instead
     /// </summary>
-    internal class StreamFileSystemDatabase<TData> : IStreamDatabase<string, TData>
+    internal class StreamFileSystemDatabase : IStreamDatabase<string, object>
     {
-        public bool Pull(string address, Type valueType, IStreamSerializer<TData> serializer, out TData data)
+        public bool Pull(string address, Type valueType, IStreamSerializer<object> serializer, out object data)
         {
             if (CreatePullStream(address, out Stream stream))
                 if (serializer.DeserializeFrom(stream, valueType, out data))
@@ -19,7 +19,7 @@ namespace TeamZero.StorageSystem
             return false;
         }
 
-        public bool Push(string address, IStreamSerializer<TData> serializer, TData data)
+        public bool Push(string address, IStreamSerializer<object> serializer, object data)
         {
             if (CreatePushStream(address, out Stream stream))
                 return serializer.SerializeTo(stream, data);

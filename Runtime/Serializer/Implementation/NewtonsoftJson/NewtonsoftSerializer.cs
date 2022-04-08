@@ -7,7 +7,7 @@ using Newtonsoft.Json;
 
 namespace TeamZero.StorageSystem.NewtonsoftJson
 {
-    public abstract class NewtonsoftSerializer<TValue, TSerializedValue> : ISerializer<TValue, TSerializedValue>, IStreamSerializer<TValue>
+    public abstract class NewtonsoftSerializer<TSerializedValue> : ISerializer<object, TSerializedValue>, IStreamSerializer<object>
     {
         private readonly JsonSerializerSettings _settings;
 
@@ -38,11 +38,11 @@ namespace TeamZero.StorageSystem.NewtonsoftJson
 
         protected JsonSerializerSettings Settings() => _settings;
         
-        public abstract bool Deserialize(Type valueType, TSerializedValue serializedValue, out TValue value);
-        public abstract bool Serialize(TValue value, [NotNullWhen(true)] out TSerializedValue serializedValue);
+        public abstract bool Deserialize(Type valueType, TSerializedValue serializedValue, out object value);
+        public abstract bool Serialize(object value, [NotNullWhen(true)] out TSerializedValue serializedValue);
 
 
-        public abstract bool DeserializeFrom(Stream stream, Type valueType, out TValue value);
-        public abstract bool SerializeTo(Stream stream, TValue value);
+        public abstract bool DeserializeFrom(Stream stream, Type valueType, out object value);
+        public abstract bool SerializeTo(Stream stream, object value);
     }
 }

@@ -4,19 +4,19 @@ using System.IO;
 
 namespace TeamZero.StorageSystem
 {
-    public class SafeStreamFileSystemDatabase<TData> : IStreamDatabase<string, TData>
+    public class SafeStreamFileSystemDatabase : IStreamDatabase<string, object>
     {
-        private readonly StreamFileSystemDatabase<TData> _database;
+        private readonly StreamFileSystemDatabase _database;
 
-        public static SafeStreamFileSystemDatabase<TData> Create()
+        public static SafeStreamFileSystemDatabase Create()
         {
-            StreamFileSystemDatabase<TData> database = new StreamFileSystemDatabase<TData>();
-            return new SafeStreamFileSystemDatabase<TData>(database);
+            StreamFileSystemDatabase database = new StreamFileSystemDatabase();
+            return new SafeStreamFileSystemDatabase(database);
         }
 
-        private SafeStreamFileSystemDatabase(StreamFileSystemDatabase<TData> database) => _database = database;
+        private SafeStreamFileSystemDatabase(StreamFileSystemDatabase database) => _database = database;
         
-        public bool Pull(string address, Type valueType, IStreamSerializer<TData> serializer, out TData data)
+        public bool Pull(string address, Type valueType, IStreamSerializer<object> serializer, out object data)
         {
             if (_database.Pull(address, valueType, serializer, out data))
                     return true;
@@ -25,7 +25,7 @@ namespace TeamZero.StorageSystem
             return _database.Pull(backupAddress, valueType, serializer, out data);
         }
 
-        public bool Push(string address, IStreamSerializer<TData> serializer, TData data)
+        public bool Push(string address, IStreamSerializer<object> serializer, object data)
         {
             string tempAddress = SafeFileSystemUtils.TempAddress(address);
             if (_database.Push(tempAddress, serializer, data))
