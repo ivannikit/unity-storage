@@ -21,6 +21,7 @@ namespace TeamZero.StorageSystem
 
         public bool Push(string address, IStreamSerializer<object> serializer, object data)
         {
+            TryCreateFolders(address);
             if (CreatePushStream(address, out Stream stream))
                 return serializer.SerializeTo(stream, data);
 
@@ -52,6 +53,19 @@ namespace TeamZero.StorageSystem
             {
                 stream = default!;
                 return false;
+            }
+        }
+
+        private void TryCreateFolders(string address)
+        {
+            try
+            {
+                FileInfo file = new(address);
+                file.Directory.Create();
+            }
+            catch
+            {
+                // ignoredoes
             }
         }
     }
