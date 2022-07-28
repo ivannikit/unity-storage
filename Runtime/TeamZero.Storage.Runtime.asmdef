@@ -1,0 +1,16 @@
+{
+    "name": "TeamZero.Storage.Runtime",
+    "rootNamespace": "",
+    "references": [
+        "GUID:50664e5e50e75744696d23afebe3e065"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
