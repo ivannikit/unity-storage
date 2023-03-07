@@ -3,6 +3,7 @@ Save application data system for Unity Engine.
 
 This package support serialization from Newtonsoft Json SDK ([Newtonsoft Json Unity Package](https://docs.unity3d.com/Packages/com.unity.nuget.newtonsoft-json@2.0/manual/index.html)).
 
+### Sample:
 #### ApplicationData.cs
 ```csharp
     public class ApplicationData
@@ -14,20 +15,26 @@ This package support serialization from Newtonsoft Json SDK ([Newtonsoft Json Un
 
 #### SaveSystem.cs
 ```csharp
-    var storage = FileSystemSerializeObjectStorage<TData>.Create();
+    var storage = FileSystemSerializeObjectStorage<ApplicationData>.Create();
     
     ApplicationDelegate appDelegate = ...;
-    IResource<ApplicationData> appData = storage.CreateResource("file_name")
+    IResource<ApplicationData> resource = storage.CreateResource("file_name")
         .WitchHash()
         .WithAutoSave(appDelegate);
         
-    IResource<CustomData> customResource = storage.CreateResource("custom_file_name");
-    bool loaded = customResource.Pull(out CustomData customData);
+    ApplicationData data = resource.Pull(defaultValue: new ApplicationData());
+```
+
+### Custom sample:
+```csharp
+    var storage = FileSystemSerializeObjectStorage<Data>.Create();
+    IResource<Data> resource = storage.CreateResource("file_name");
+    bool loaded = resource.Pull(out Data data);
     if(loaded)
     {
-        //use customData
+        //use data
     }
     ...
     
-    bool saved = customResource.Push(customData);
+    bool saved = resource.Push(data);
 ```
