@@ -34,7 +34,7 @@ namespace TeamZero.StorageSystem
             return new FileSystemSerializeObjectStorage<TData>(directoryPath, fileExtension, database, serializer);
         }
         
-        private FileSystemSerializeObjectStorage(string directoryPath, string fileExtension,
+        public FileSystemSerializeObjectStorage(string directoryPath, string fileExtension,
             IStreamDatabase<string, object> database, 
             IStreamSerializer<object> serializer) : base(database, serializer)
         {
